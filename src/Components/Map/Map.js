@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, withScriptjs, withGoogleMap, Marker } from 'react-google-maps';
+import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'react-google-maps';
+//import * as aircrafts from '../../data/aircrafts.json'; 
 
 function Map() {
+  const [selectedAirplane, setSelectedAirplane] = useState(null);
   // Set state (locations of airplanes) to initial request as markers
   const [airplanes, setAirplanes] = useState([]);
 
@@ -11,10 +13,10 @@ function Map() {
       fetch('https://opensky-network.org/api/states/all', { method: "GET" })
       .then(res => res.json())
       .then(response => {
-        setAirplanes(response["states"])
-        console.log(response["states"])
-      })
-      
+        setAirplanes(response["states"]);
+        //console.log(response["states"])
+      });
+
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -32,8 +34,25 @@ function Map() {
             lat: airplane[6],
             lng: airplane[5] 
           }}
+          onClick={() => {
+            setSelectedAirplane(airplane);
+          }}
        />
     ))}
+
+    {selectedAirplane && (
+      <InfoWindow
+        position={{ 
+          lat: selectedAirplane[6],
+          lng: selectedAirplane[5] 
+         }}
+         onCloseClick={() => {
+          setSelectedAirplane(null);
+         }}
+      >
+        <div>Airplane Details</div>
+      </InfoWindow>
+    )}
     </GoogleMap>
     </div>
   );
