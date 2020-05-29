@@ -4,17 +4,16 @@ import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'reac
 
 function Map() {
   const [selectedAirplane, setSelectedAirplane] = useState(null);
-  // Set state (locations of airplanes) to initial request as markers
   const [airplanes, setAirplanes] = useState([]);
 
   useEffect(() => {
+    // Update state (markers) every second
     const interval = setInterval(() => {
-      // Update state (markers) every second
       fetch('https://opensky-network.org/api/states/all', { method: "GET" })
       .then(res => res.json())
       .then(response => {
         setAirplanes(response["states"]);
-        //console.log(response["states"])
+        console.log(response["states"])
       });
 
     }, 1000);
@@ -24,15 +23,15 @@ function Map() {
   return (
     <div>
     <GoogleMap 
-        defaultZoom={10}
+        defaultZoom={7}
         defaultCenter={{ lat:  57.041401, lng: 12.401050 }}
     >
     { airplanes.map((airplane) => ( 
        <Marker 
           key={airplane[0]}
           position={{ 
-            lat: airplane[6],
-            lng: airplane[5] 
+            lat: parseFloat(airplane[6]),
+            lng: parseFloat(airplane[5]) 
           }}
           onClick={() => {
             setSelectedAirplane(airplane);
@@ -43,8 +42,8 @@ function Map() {
     {selectedAirplane && (
       <InfoWindow
         position={{ 
-          lat: selectedAirplane[6],
-          lng: selectedAirplane[5] 
+          lat: parseFloat(selectedAirplane[6]),
+          lng: parseFloat(selectedAirplane[5]) 
          }}
          onCloseClick={() => {
           setSelectedAirplane(null);
