@@ -38,6 +38,12 @@ function Map() {
           onClick={() => {
             setSelectedAirplane(airplane);
           }}
+          icon={{ 
+            url: './plane.png',
+            scaledSize: new window.google.maps.Size(25, 25),
+            // The rotation below does not work
+            rotation: 30
+           }}
        />
     ))}
 
@@ -52,9 +58,14 @@ function Map() {
          }}
       >
         <div>
-          <h2>{selectedAirplane[0]}</h2>
-          <p>icao24: {selectedAirplane[0]}</p>
-          <p>Copy this code and run it in Airplane-Info to get more info about the airplane</p>
+          <h2>Airplane Data</h2>
+          <p><b>Icao24:</b> {selectedAirplane[0]}</p>
+          <p><b>Track:</b> {parseFloat(selectedAirplane[10])}</p>
+          <p><b>On Ground:</b> {selectedAirplane[8]}</p>
+          <p><b>Velocity:</b> {selectedAirplane[9]} m/s</p>
+          <p><b>Vertical Speed:</b> {selectedAirplane[11]} m/s</p>
+          <p><b>Altitude:</b> {selectedAirplane[13]}</p>
+
           </div>
       </InfoWindow>
     )}
