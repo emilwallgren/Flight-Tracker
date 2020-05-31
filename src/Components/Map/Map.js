@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow } from 'react-google-maps';
-//import * as aircraftinfo from '../../data/aircrafts.json'; 
 import mapStyles from "./../../mapStyles";
 
 function Map() {
@@ -14,7 +13,6 @@ function Map() {
       .then(res => res.json())
       .then(response => {
         setAirplanes(response["states"]);
-        console.log(response["states"])
       });
 
     }, 1000);
@@ -26,7 +24,7 @@ function Map() {
     <GoogleMap 
         defaultZoom={7}
         defaultCenter={{ lat:  57.041401, lng: 12.401050 }}
-        defaultOptions={{  styles: mapStyles }}
+        defaultOptions={{  styles: mapStyles, streetViewControl: false }}
     >
     { airplanes.map((airplane) => ( 
        <Marker 
@@ -36,13 +34,29 @@ function Map() {
             lng: parseFloat(airplane[5]) 
           }}
           onClick={() => {
-            setSelectedAirplane(airplane);
+            // Add airplane info to be used with InfoWindow
+            fetch(`https://api.allorigins.win/get?url=https://opensky-network.org/api/metadata/aircraft/list?q=${airplane[0]}`, { method: "GET" })
+            .then(response => {
+              if (response.ok) return response.json()
+              throw new Error('Network response was not ok.')
+            })
+            .then(data => {
+              const json = JSON.parse(data.contents);
+              let allData = [];
+              allData[0] = airplane;
+              allData[1] = json.content;
+              if (!allData[1][0].operator || allData[1][0].operator === "") {
+                allData[1][0].operator = "Unknown";
+              }
+              if (!allData[1][0].model || allData[1][0].model === "") {
+                allData[1][0].model = "Unknown";
+              }
+              setSelectedAirplane(allData);
+            });
           }}
           icon={{ 
             url: './plane.png',
-            scaledSize: new window.google.maps.Size(25, 25),
-            // The rotation below does not work
-            rotation: 30
+            scaledSize: new window.google.maps.Size(60, 60)
            }}
        />
     ))}
@@ -50,21 +64,24 @@ function Map() {
     {selectedAirplane && (
       <InfoWindow
         position={{ 
-          lat: parseFloat(selectedAirplane[6]),
-          lng: parseFloat(selectedAirplane[5]) 
+          lat: parseFloat(selectedAirplane[0][6]),
+          lng: parseFloat(selectedAirplane[0][5]) 
          }}
          onCloseClick={() => {
           setSelectedAirplane(null);
          }}
       >
         <div>
-          <h2>Airplane Data</h2>
-          <p><b>Icao24:</b> {selectedAirplane[0]}</p>
-          <p><b>Track:</b> {parseFloat(selectedAirplane[10])}</p>
-          <p><b>On Ground:</b> {selectedAirplane[8]}</p>
-          <p><b>Velocity:</b> {selectedAirplane[9]} m/s</p>
-          <p><b>Vertical Speed:</b> {selectedAirplane[11]} m/s</p>
-          <p><b>Altitude:</b> {selectedAirplane[13]}</p>
+          <h5>Airplane Info</h5>
+          <p><b>Icao24:</b> {selectedAirplane[0][0]}</p>
+          <p><b>Model:</b> {selectedAirplane[1][0].model}</p>
+          <p><b>Country:</b> {selectedAirplane[1][0].country}</p>
+          <p><b>Operator:</b> {selectedAirplane[1][0].operator}</p>
+          <br></br>
+          <h5>Tracking</h5>
+          <p><b>Velocity:</b> {selectedAirplane[0][9]} m/s</p>
+          <p><b>Vertical Speed:</b> {selectedAirplane[0][11]} m/s</p>
+          <p><b>Altitude:</b> {selectedAirplane[0][13]}</p>
 
           </div>
       </InfoWindow>
