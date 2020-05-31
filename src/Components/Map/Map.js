@@ -92,7 +92,7 @@ function Map() {
           <h5>Tracking</h5>
           <p><b>Velocity:</b> {selectedAirplane[0][9]} m/s</p>
           <p><b>Vertical Speed:</b> {selectedAirplane[0][11]} m/s</p>
-          <p><b>Altitude:</b> {selectedAirplane[0][13]}</p>
+          <p><b>Altitude:</b> {selectedAirplane[0][13]} m</p>
 
           </div>
       </InfoWindow>
