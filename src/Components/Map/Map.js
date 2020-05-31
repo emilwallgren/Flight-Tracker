@@ -44,12 +44,23 @@ function Map() {
               const json = JSON.parse(data.contents);
               let allData = [];
               allData[0] = airplane;
-              allData[1] = json.content;
-              if (!allData[1][0].operator || allData[1][0].operator === "") {
+              if (!Array.isArray(json.content) || !json.content.length)
+              {
+                allData[1] = [];
+                allData[1][0] = {};
                 allData[1][0].operator = "Unknown";
-              }
-              if (!allData[1][0].model || allData[1][0].model === "") {
                 allData[1][0].model = "Unknown";
+                allData[1][0].country = "Unknown";
+              }
+              else 
+              {
+                allData[1] = json.content;
+                if (allData[1][0].operator === "") {
+                  allData[1][0].operator = "Unknown";
+                }
+                if (allData[1][0].model === "") {
+                  allData[1][0].model = "Unknown";
+                }
               }
               setSelectedAirplane(allData);
             });
