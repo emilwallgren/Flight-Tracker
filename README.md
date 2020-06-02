@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Flight-Tracker
 
-## Available Scripts
+## What is Flight-Tracker?
+Flight-Tracker is a web-application built in React. The purpose is to easily be able to track active airplanes all around the world. 
 
-In the project directory, you can run:
+## Why was Flight-Tracker built?
+For personal reasons. I've been having airplanes flying with low altitude over my house while studying computer science over distance. They have been flying so quickly that I havent been able to see what type they are (military, commercial or other). So I wanted to know what type of airplanes they were and what speed + altitude they were flying at. Hence, the idea behind Flight-Tracker was born :)
 
-### `npm start`
+## How is Flight-Tracker built?
+Flight-Tracker is built on React (create-react-app) frontend. It utilizes the [OpenSky REST API](https://opensky-network.org/apidoc/rest.html) to feed in active airplanes which then are positioned on an integrated Google Map. It then grabs the unique ICAO 24-bit address of the transponder and puzzles that together with another API-call that fetches info about the individual airplane.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
+### Downloading and installing the application locally
+Download the source-code from here and then run:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+`npm install`
+to install all necessary dependencies.
 
-### `npm test`
+### Set up Google Maps
+Get an API-Key for Google Maps from Google.
+Follow [this documentation](https://developers.google.com/maps/documentation/javascript/get-api-key) to create and get the key.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+When you have the key, create a file named **.env** and place it in the root-folder of the application.
+In that .env-file add this variable with your key:
 
-### `npm run build`
+`REACT_APP_MAPS=[Replace this block with your API-key and remove the brackets]`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Local Usage
+Start the application by running `npm start`from the "flights"-folder.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+When the application have started, wait for a bit for the map and markers to load.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When everything have loaded, you should be located in Sweden by default, simply zoom out and drag yourself around on the map to change location (just as you can do on regular Google Maps).
 
-### `npm run eject`
+If you click on an airplane, an infobox should appear that shows the following info about the airplane:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Icao24
+2. Airplane model
+3. Origin country
+4. Operator
+5. Velocity
+6. Vertical speed
+7. Altitude
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+That's it, enjoy Flight-Tracker! :)
