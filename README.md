@@ -1,7 +1,7 @@
 # Flight-Tracker
 
 ## What is Flight-Tracker?
-Flight-Tracker is a web-application built in React. The purpose is to easily be able to track active airplanes all around the world. 
+[Flight-Tracker](https://github.com/emilwallgren/Flight-Tracker) is a web-application built in React. The purpose is to easily be able to track active airplanes all around the world. 
 
 ## Why was Flight-Tracker built?
 For personal reasons. I've been having airplanes flying with low altitude over my house while studying computer science over distance. They have been flying so quickly that I havent been able to see what type they are (military, commercial or other). So I wanted to know what type of airplanes they were and what speed + altitude they were flying at. Hence, the idea behind Flight-Tracker was born :)
